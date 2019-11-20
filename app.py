@@ -5,7 +5,7 @@ from flask_login import LoginManager
 
 
 
-
+import models
 
 DEBUG = True
 PORT = 8000
