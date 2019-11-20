@@ -39,6 +39,34 @@ def register():
 def login():
 	payload = request.get_json()
 
+	try:
+		user = models.User.get(models.User.username == payload['username'])
+		user_dict = model_to_dict(user)
+
+		if(check_password_hash(user_dict['password'], payload['password'])):
+			login_user(user)
+			del user_dict['password']
+			return jsonify(data=user_dict, status={'code':200, 'message': "Successfully logged in {}".format(user_dict['username'])}), 200
+		else:
+			print("uh uh uh, you didn't say the magic word")
+			return jsonify(data={}, status={'code': 401, 'message':'Username of Password is incorrect'}), 401
+	except models.DoesNotExist:
+		print('user not found')
+		return jsonify(data={}, status={'code': 401, 'message':'User not found'}), 401
+
+@users.route('/', methods=['GET'])
+def list_users():
+	users = models.User.select()
+	print(users)
+
+	user_dicts = [model_to_dict(u) for u in users]
+	def remove_doxx(u):
+		u.pop('password')
+		u.pop('email')
+		return u
+
+	user_dicts_without_doxx = list(map(remove_doxx, user_dicts))
+	return jsonify(data=user_dicts_without_doxx), 200
 
 
 
