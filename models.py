@@ -6,9 +6,9 @@ import datetime
 DATABASE = SqliteDatabase('librarium.sqlite')
 
 class User(UserMixin, Model):
-	uname = CharField(unique = True)
-	pword = CharField()
-	email = CharField()
+	username = CharField(unique = True)
+	password = CharField()
+	email = CharField(unique = True)
 
 	class Meta:
 		database = DATABASE
