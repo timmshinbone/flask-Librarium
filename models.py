@@ -27,8 +27,7 @@ class Book(Model):
 
 class Copy(Model):
 	book = ForeignKeyField(Book, backref='copies')
-	owner = ForeignKeyField(User, backref='')
-	hardcover = BooleanField()
+	owner = ForeignKeyField(User, backref='copies')
 
 	class Meta:
 		database = DATABASE

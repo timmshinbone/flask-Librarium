@@ -17,7 +17,7 @@ def create_book():
 		book = models.Book.get(models.Book.isbn == payload['isbn'])
 		print(book, "this is book")
 		# return jsonify(data={}, status={'code': 401, 'message':'A book with this isbn already exists, create copy?'}), 401
-		return redirect(url_for('books.get_one_book', id=book), code=302)
+		return redirect(url_for('copies.create_copy', id=book), code=302)
 	except models.DoesNotExist:
 		book = models.Book.create(**payload)
 		print(book.__dict__)
