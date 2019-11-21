@@ -68,7 +68,7 @@ def list_users():
 
 	user_dicts_without_doxx = list(map(remove_doxx, user_dicts))
 	return jsonify(data=user_dicts_without_doxx), 200
-
+#see who is logged in
 @users.route('/logged_in', methods=['GET'])
 def get_logged_in_user():
 	if not current_user.is_authenticated:
@@ -81,6 +81,7 @@ def get_logged_in_user():
 		user_dict.pop('email')
 		return jsonify(user_dict)
 
+#log out current user
 @users.route('/logout', methods=['GET'])
 def logout():
 	username = model_to_dict(current_user)['username']

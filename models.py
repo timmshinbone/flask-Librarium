@@ -26,7 +26,7 @@ class Book(Model):
 		database = DATABASE
 
 class Copy(Model):
-	book = ForeignKeyField(Book, backref='books')
+	book = ForeignKeyField(Book, backref='copies')
 	owner = ForeignKeyField(User, backref='')
 	hardcover = BooleanField()
 
@@ -34,7 +34,7 @@ class Copy(Model):
 		database = DATABASE
 
 class Trade(Model):
-	copy_id = ForeignKeyField(Copy, backref='')
+	copy = ForeignKeyField(Copy, backref='')
 	current_o = ForeignKeyField(User, backref='')
 	former_o = ForeignKeyField(User, backref='')
 	traded = DateField()
