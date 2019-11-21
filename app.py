@@ -4,6 +4,7 @@ from flask_login import LoginManager
 
 from resources.users import users
 from resources.books import books
+from resources.copies import copy
 
 import models
 
@@ -44,9 +45,11 @@ def after_request(response):
 
 CORS(users, origins=['http://localhost:3000'], supports_credentials=True)
 CORS(books, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(copy, origins=['http://localhost:3000'], supports_credentials=True)
 
 app.register_blueprint(users, url_prefix='/api/v1/users')
 app.register_blueprint(books, url_prefix='/api/v1/books')
+app.register_blueprint(copy, url_prefix='/api/v1/copies')
 
 if __name__ == '__main__':
 	models.initialize()
