@@ -34,8 +34,9 @@ class Copy(Model):
 
 class Trade(Model):
 	copy = ForeignKeyField(Copy, backref='')
-	current_o = ForeignKeyField(User, backref='')
-	former_o = ForeignKeyField(User, backref='')
+	from_user = ForeignKeyField(User, backref='')
+	to_user = ForeignKeyField(User, backref='')
+	accepted = BooleanField()
 	traded = DateField()
 
 	class Meta:
