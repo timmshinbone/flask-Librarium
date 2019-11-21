@@ -22,6 +22,17 @@ def create_book():
 		book_dict = model_to_dict(book)
 		return jsonify(data=book_dict, status={"code": 201, "message": "Success"}), 201
 
+#show page for all books
+@books.route('/', methods=['GET'])
+def get_all_books():
+	books = models.Book.select()
+	print(books)
+
+	book_dicts = [model_to_dict(b) for b in books]
+
+	all_books = list(book_dicts)
+	return jsonify(data=all_books), 200
+
 
 
 
