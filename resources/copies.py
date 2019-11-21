@@ -23,10 +23,13 @@ def create_copy():
 @copy.route('/', methods=['GET'])
 def get_all_copies():
 	copies = models.Copy.select()
-	print(copies)
+	print(copies, "this is copies")
 	copy_dicts = [model_to_dict(c) for c in copies]
-	all_copies = list(copy_dicts)
-	return jsonify(data=all_copies), 200
+	print("THIS IS COPY_DICTS --->", copy_dicts)
+	# all_copies = list(copy_dicts)
+	# print("THIS IS ALL COPIES ====>>", all_copies)
+	
+	return jsonify(data=copy_dicts), 200
 
 
 #one copy show route
@@ -40,7 +43,18 @@ def get_one_copy(id):
 	return jsonify(data=copy_dict, status={"code": 200, 'message':'Found copy with id{}'.format(copy.id)})
 
 #copy change owner route
-
+@copy.route('/<id>', methods=['PUT'])
+@login_required
+def change_owner(id):
+	payload = request.get_json()
+	copy = models.Copy.get_by_id(id)
+	print(copy)
+	if(current_user.id == copy.owner.id):
+		copy.owner = payload['id']
+		copy_dict = model_to_dict(copy)
+		return jsonify(data=copy_dict, status={"code": 200, "message": "Success"})
+	else:
+		return jsonify(data="Forbidden", status={'code': 403, 'message':"Users can only update their own copies"}), 403
 
 #copy delete route
 @copy.route('/<id>', methods=['Delete'])
