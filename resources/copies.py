@@ -39,6 +39,28 @@ def get_one_copy(id):
 	copy_dict['owner'].pop('email')
 	return jsonify(data=copy_dict, status={"code": 200, 'message':'Found copy with id{}'.format(copy.id)})
 
+#copy change owner route
+
+
+#copy delete route
+@copy.route('/<id>', methods=['Delete'])
+@login_required
+def delete_copy(id):
+	copy_to_delete = models.Copy.get_by_id(id)
+	if (copy_to_delete.owner.id != current_user.id):
+		return jsonify(data="Forbidden", status={'code': 403, 'message':"Users can only delete their own books"}), 403
+	else:
+		copy_to_delete.delete_instance()
+		return jsonify(data='resource Successfully deleted', status={"code": 200, "message": "resource deleted"})
+
+
+
+
+
+
+
+
+
 
 
 
