@@ -29,8 +29,15 @@ def get_all_copies():
 	return jsonify(data=all_copies), 200
 
 
-
-
+#one copy show route
+@copy.route('/<id>', methods=['GET'])
+def get_one_copy(id):
+	copy = models.Copy.get_by_id(id)
+	print(copy)
+	copy_dict = model_to_dict(copy)
+	copy_dict['owner'].pop('password')
+	copy_dict['owner'].pop('email')
+	return jsonify(data=copy_dict, status={"code": 200, 'message':'Found copy with id{}'.format(copy.id)})
 
 
 
