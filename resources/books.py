@@ -20,6 +20,7 @@ def create_book():
 		return redirect(url_for('copies.create_copy', book=book), code=307)
 	except models.DoesNotExist:
 		book = models.Book.create(**payload)
+		book_copy = models.Copy.create(book=book.id, owner=current_user.id)
 		print(book.__dict__)
 		print(model_to_dict(book), 'model to dict')
 		book_dict = model_to_dict(book)
