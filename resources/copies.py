@@ -55,6 +55,8 @@ def change_owner(id):
 	if(current_user.id == copy.owner.id):
 		copy.owner = payload['id']
 		copy_dict = model_to_dict(copy)
+		copy_dict['owner'].pop('password')
+		copy_dict['owner'].pop('email')
 		return jsonify(data=copy_dict, status={"code": 200, "message": "Success"})
 	else:
 		return jsonify(data="Forbidden", status={'code': 403, 'message':"Users can only update their own copies"}), 403
