@@ -11,7 +11,6 @@ trades = Blueprint('trades', 'trades')
 ##CREATE TRADE ROUTE (POST) with update queries
 #current user(from_user) sends trade request([from_copy] for [to_copy]) to (to_user)
 #if (to_user) accepts, 
-	#Datefield == accepted date
 	#change copy.owner.id to current_user.id
 	#copy_xchange = models.Copy.change_owner(owner=current_user.id)
 #else
@@ -33,21 +32,23 @@ def make_trade_request(f, t):
 
 	return jsonify(data=trade_dict, status={"code":201, "message": "Success"}), 201
 
-##TRADE FIELDS##
-# copy_from = ForeignKeyField(Copy, backref='')
-# copy_to
-# from_user = ForeignKeyField(User, backref='')
-# to_user = ForeignKeyField(User, backref='')
-# accepted = BooleanField()
-# traded = DateField()
-# status
+#show all trades
+@trades.route('/', methods=['GET'])
+def show_all_trades():
+	trades = models.Trade.select()
+	print(trades, "this is trades")
+	trades_dicts = [model_to_dict(t) for t in trades]
+	
+	[x['copy_from']['owner'].pop('password') for x in trades_dicts]
+	[x['copy_from']['owner'].pop('email') for x in trades_dicts]
+	[x['copy_to']['owner'].pop('password') for x in trades_dicts]
+	[x['copy_to']['owner'].pop('email') for x in trades_dicts]
+	[x['from_user'].pop('password') for x in trades_dicts]
+	[x['from_user'].pop('email') for x in trades_dicts]
+	[x['to_user'].pop('password') for x in trades_dicts]
+	[x['to_user'].pop('email') for x in trades_dicts]
 
-# post route creates trade request
-# put route changes status of trade and redirects to edit copy
-
-
-# def get_trade_request():
-# 	request = User.select().where(to_user.id == current_user.id)
+	return jsonify(data=trades_dicts), 200
 
 
 
