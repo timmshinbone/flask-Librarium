@@ -69,14 +69,6 @@ def trade_decider(id):
 		query1.execute()
 		query2 = models.Copy.update(owner=trade.from_user).where(models.Copy.id == copy_to['id'])
 		query2.execute()
-		# copy_to_record = models.Copy.get(models.Copy.id == copy_to['id'])
-		# copy_from_record = models.Copy.get(models.Copy.id == copy_from['id'])
-
-		# copy_to_record.owner = 
-
-		# .save()
-
-
 		trade_status = models.Trade.update(status="accepted")
 		trade_status.execute()
 		print("this is trade status", trade_dict['status'])
