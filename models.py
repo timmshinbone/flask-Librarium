@@ -33,11 +33,13 @@ class Copy(Model):
 		database = DATABASE
 
 class Trade(Model):
-	copy = ForeignKeyField(Copy, backref='')
-	from_user = ForeignKeyField(User, backref='')
-	to_user = ForeignKeyField(User, backref='')
-	accepted = BooleanField()
-	traded = DateField()
+	copy_from = ForeignKeyField(Copy, backref='trades')
+	from_user = ForeignKeyField(User, backref='trades')
+	copy_to = ForeignKeyField(Copy, backref='trades')
+	to_user = ForeignKeyField(User, backref='trades')
+	# accepted = BooleanField()
+	trade_date = DateField(default=datetime.datetime.now())
+	status = CharField(default='pending')
 
 	class Meta:
 		database = DATABASE

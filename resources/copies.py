@@ -26,6 +26,9 @@ def get_all_copies():
 	print(copies, "this is copies")
 	copy_dicts = [model_to_dict(c) for c in copies]
 	print("THIS IS COPY_DICTS --->", copy_dicts)
+	#remove password and email from json return data
+	[x['owner'].pop('password') for x in copy_dicts]
+	[x['owner'].pop('email') for x in copy_dicts]
 	# all_copies = list(copy_dicts)
 	# print("THIS IS ALL COPIES ====>>", all_copies)
 	
