@@ -58,6 +58,7 @@ def login():
 @users.route('/', methods=['GET'])
 def list_users():
 	users = models.User.select()
+	print("\nThis is USERS")
 	print(users)
 
 	user_dicts = [model_to_dict(u) for u in users]
@@ -68,6 +69,18 @@ def list_users():
 
 	user_dicts_without_doxx = list(map(remove_doxx, user_dicts))
 	return jsonify(data=user_dicts_without_doxx), 200
+
+#individual user show route
+#one copy show route
+@users.route('/<id>', methods=['GET'])
+def get_one_user(id):
+	user = models.User.get_by_id(id)
+	print(user)
+	user_dict = model_to_dict(user)
+	user_dict.pop('password')
+	user_dict.pop('email')
+	return jsonify(data=user_dict, status={"code": 200, 'message':'Found user with id{}'.format(user.id)})
+
 #see who is logged in
 @users.route('/logged_in', methods=['GET'])
 def get_logged_in_user():
