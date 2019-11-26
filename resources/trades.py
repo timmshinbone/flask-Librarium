@@ -10,10 +10,12 @@ trades = Blueprint('trades', 'trades')
 
 
 #make a trade "ticket"
-@trades.route('/<f>/<t>', methods=['POST'])
+@trades.route('/<t>/<f>', methods=['POST'])
 @login_required
-def make_trade_request(f, t):
+def make_trade_request(t, f):
 	payload = request.get_json()
+
+	print("THIS IS THE PAYLOAD OF THE TRADE", payload)
 	
 	payload['from_user'] = current_user.id
 	payload['copy_from'] = models.Copy.get_by_id(f)
@@ -28,18 +30,13 @@ def make_trade_request(f, t):
 
 
 
-##CREATE TRADE ROUTE (POST) with update queries
+##Trade Accepted Ticket
 
-#if (to_user) accepts, 
-	#call copy owner change function from copies
-	#copy_xchange = models.Copy.change_owner(owner=current_user.id)
-#else
-	#send message to (from_user) trade is denied
-#accept or deny trade ticket
 @trades.route('/<id>', methods=['PUT'])
 @login_required
 def trade_decider(id):
 	payload = request.get_json()
+	print("THIS IS PAYLOAD FOR TRADE ACCEPT>>>>>>>>>", payload)
 	trade = models.Trade.get_by_id(id)
 	trade_dict = model_to_dict(trade)
 	##REMOVES SENSITIVE INFO##
@@ -75,9 +72,6 @@ def trade_decider(id):
 		#update the from_copy.owner to to_user
 		#update the to_copy.owner to from_user
 	return jsonify(data=trade_dict, status={"code":200, "message": "Success"}), 200
-
-
-
 
 
 #show all trades
