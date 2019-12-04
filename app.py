@@ -45,10 +45,10 @@ def after_request(response):
 
 
 
-CORS(users, origins=['http://localhost:3000'], supports_credentials=True)
-CORS(books, origins=['http://localhost:3000'], supports_credentials=True)
-CORS(copy, origins=['http://localhost:3000'], supports_credentials=True)
-CORS(trades, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(users, origins=['http://localhost:3000', 'https://thelibrarium.herokuapp.com'], supports_credentials=True)
+CORS(books, origins=['http://localhost:3000', 'https://thelibrarium.herokuapp.com'], supports_credentials=True)
+CORS(copy, origins=['http://localhost:3000', 'https://thelibrarium.herokuapp.com'], supports_credentials=True)
+CORS(trades, origins=['http://localhost:3000', 'https://thelibrarium.herokuapp.com'], supports_credentials=True)
 
 app.register_blueprint(users, url_prefix='/api/v1/users')
 app.register_blueprint(books, url_prefix='/api/v1/books')
@@ -61,7 +61,7 @@ if 'ON_HEROKU' in os.environ:
 	print('\non heroku!')
 	models.initialize()
 
-	
+
 if __name__ == '__main__':
 	models.initialize()
 	app.run(debug=DEBUG, port=PORT)
