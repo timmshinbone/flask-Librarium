@@ -1,3 +1,4 @@
+import os
 from flask import Flask, jsonify, g
 from flask_cors import CORS
 from flask_login import LoginManager
@@ -54,9 +55,29 @@ app.register_blueprint(books, url_prefix='/api/v1/books')
 app.register_blueprint(copy, url_prefix='/api/v1/copies')
 app.register_blueprint(trades, url_prefix='/api/v1/trades')
 
+
+
+if 'ON_HEROKU' in os.environ:
+	print('\non heroku!')
+	models.initialize()
+
+	
 if __name__ == '__main__':
 	models.initialize()
 	app.run(debug=DEBUG, port=PORT)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
