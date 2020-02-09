@@ -71,7 +71,6 @@ def list_users():
 	return jsonify(data=user_dicts_without_doxx), 200
 
 #individual user show route
-#one copy show route
 @users.route('/<id>', methods=['GET'])
 def get_one_user(id):
 	user = models.User.get_by_id(id)
