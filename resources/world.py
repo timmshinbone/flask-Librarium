@@ -2,6 +2,10 @@
 # =
 # "https://openlibrary.org/api/books?bibkeys=ISBN:0451526538&callback=mycallback"
 
+ # default output of Open Library API is javascript, so change the format to JSON. 
+ # Start with get route, for a specific ISBN, then make the ISBN a variable.
+ # Needs searchability, copyability, but not addition and deletion.
+
 import models
 
 from flask import request, jsonify, Blueprint, redirect, url_for
